@@ -50,7 +50,6 @@ public class JwtController {
 	protected boolean validateClaims(JwtClaims claims) {
 		log.info("Inicio do metodo validateClaims ---");
 		if(claims == null) {
-            log.error("JWT deve conter exatamente 3 claims");
     		log.info("Fim do metodo validateClaims: Saida [false] ---");
             return false;
 		}
@@ -90,7 +89,10 @@ public class JwtController {
 
 	protected JwtClaims extractClaims(DecodedJWT jwt) {
 		Map<String, Claim> claims2 = jwt.getClaims();
-		if(claims2.size() != 3 ) return null;
+		if(claims2.size() != 3 ) {
+            log.error(String.format("JWT deve conter exatamente 3 claims. Este JWT tem %d claims.", claims2.size()));
+			return null;
+		}
 		
 		JwtClaims claims = new JwtClaims(
 				jwt.getClaim("Name").asString(), 
