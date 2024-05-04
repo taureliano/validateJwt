@@ -1,13 +1,6 @@
 # Validate JWT API
 
-Este projeto é uma aplicação Java que expõe uma API web que recebe por parametro um JWT (string) e verifica se é valida conforme regras abaixo:
-
-- Deve ser um JWT válido
-- Deve conter apenas 3 claims (Name, Role e Seed)
-- A claim Name não pode ter carácter de números
-- A claim Role deve conter apenas 1 dos três valores (Admin, Member e External)
-- A claim Seed deve ser um número primo.
-- O tamanho máximo da claim Name é de 256 caracteres.
+Este projeto é uma aplicação Java que expõe uma API web para validar JWTs (JSON Web Tokens) de acordo com regras específicas.
 
 # Pré-requitos
 
@@ -19,6 +12,10 @@ Antes de iniciar, certifique-se de ter o seguinte instalado em seu sistema:
 ## Configuração e Execução
 
 Siga estas etapas para configurar e executar o projeto:
+
+### 1. Clone o repositório
+
+Clone este repositório em sua máquina local usando o seguinte comando:
 
 ```bash
 git clone https://github.com/taureliano/validateJwt.git
@@ -33,7 +30,15 @@ Dentro do diretório do projeto, execute o seguinte comando Maven para construir
 mvc clean install
 ```
 
-A aplicação será iniciada e estará disponível `http://localhost:8080/validateJwt`
+### 3. Execute a aplicação 
+
+Após a construção bem-sucedida, inicie a aplicação com o seguinte comando:
+
+```bash
+mvn spring-boot:run
+```
+
+A aplicação será iniciada e estará disponível em `http://localhost:8080/validateJwt`
 
 ## Uso da API
 
@@ -47,7 +52,7 @@ curl -X GET "http://localhost:8080/validateJwt?token=seu_jwt_aqui"
 
 Substitua `seu_jwt_aqui` pelo JWT que você deseja validar.
 
-### Regras de Validação
+## Regras de Validação
 
 A API valida o JWT de acordo com as seguinte regras:
 
@@ -58,3 +63,36 @@ A API valida o JWT de acordo com as seguinte regras:
 - A claim Seed deve ser um número primo.
 - O tamanho máximo da claim Name é de 256 caracteres.
 
+## Detalhes dos Métodos
+
+A API expõe o seguinte método:
+
+- validateJwt (GET)
+
+## Métodos Internos
+
+Dentro deste método seguimos com mais alguns métodos de tratamento:
+
+### 1. extractClaims
+
+Neste método recebemos uma classe DecodedJWT, o qual contém o token decodificado.
+
+```bash
+extractClaims(DecodedJWT jwt)
+```
+
+### 2. validateClaims
+
+Neste método recebemos um bean criado JwtClaim, para armazenarmos as informações dos Claims e podermos enviá-los entre os métodos.
+
+```bash
+validateClaims(JwtClaims claims)
+```
+
+### 3. isPrime
+
+Neste método recebemos um número e validamos se ele é um número primo.
+
+```bash
+isPrime(int n)
+```
